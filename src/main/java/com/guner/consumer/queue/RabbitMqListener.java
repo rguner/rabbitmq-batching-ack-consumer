@@ -68,7 +68,7 @@ public class RabbitMqListener {
         log.debug("Charging List as Message: Received <{} {}> , thread: {}", listMessagesChargingRecord.size(), Thread.currentThread().getName());
         listMessagesChargingRecord.forEach(message -> chargingRecordService.createChargingRecord(message.getPayload()));
         int batchSize = listMessagesChargingRecord.size();
-        // Channel channel = listMessagesChargingRecord.get(batchSize - 1).getHeaders().get(AmqpHeaders.CHANNEL, Channel.class);
+        // Channel channel = listMessagesChargingRecord.get(batchSize - 1).getHeaders().get(AmqpHeaders.CHANNEL, Channel.class); // is also possible
         long deliveryTag = listMessagesChargingRecord.get(batchSize - 1).getHeaders().get(AmqpHeaders.DELIVERY_TAG, Long.class);
         try {
             channel.basicAck(deliveryTag, false);
